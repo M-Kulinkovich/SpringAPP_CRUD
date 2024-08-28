@@ -13,9 +13,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Change directory to 'demo'
-        run: cd demo
-
       - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
@@ -23,7 +20,9 @@ jobs:
           java-version: '21'
 
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: |
+          cd demo  # Переход в директорию с pom.xml
+          mvn -B package --file pom.xml  # Выполнение Maven в директории demo
 
   deploy:
     needs: build
@@ -34,7 +33,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Change directory to 'demo'
-        run: cd demo
+        run: cd demo  
 
       - name: Build Docker image
         run: docker build -t myapp:latest .
