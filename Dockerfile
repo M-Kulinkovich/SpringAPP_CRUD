@@ -1,9 +1,7 @@
-FROM maven:3.8.6-eclipse-temurin-17
+FROM ibm-semeru-runtimes:open-17-jdk-focal
 
+COPY demo/target/*.jar /app/app.jar
 WORKDIR /app
 
-COPY pom.xml .
-COPY src ./src
-RUN mvn clean package -DskipTests
+CMD ["java", "-jar", "app.jar"]
 
-CMD ["java", "-jar", "target/demo-0.0.1-SNAPSHOT.jar"]
